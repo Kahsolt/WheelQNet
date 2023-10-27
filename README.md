@@ -1,0 +1,34 @@
+# OriginQ-2023-VQNet-Titanic-Problem
+
+    第一届量子信息技术与应用创新大赛 本源量子VQNet量子机器学习大赛赛道
+
+----
+
+contest page: [https://contest.originqc.com.cn/contest/32/contest:introduction](https://contest.originqc.com.cn/contest/32/contest:introduction)  
+team name: 做好坠机准备  
+
+
+### quick start
+
+⚪ install
+
+- `conda create -n vq python==3.8`
+- `conda activare vq`
+- `pip install -r requirements.txt`
+
+⚪ run
+
+- ??
+
+
+#### refenrence
+
+⚪ Q framework
+
+- QPanda: [https://qpanda-tutorial.readthedocs.io/zh/latest/](https://qpanda-tutorial.readthedocs.io/zh/latest/)
+- PyQPanda: [https://pyqpanda-toturial.readthedocs.io/zh/latest/index.html](https://pyqpanda-toturial.readthedocs.io/zh/latest/index.html)
+- VQNet: [https://vqnet20-tutorial.readthedocs.io/en/latest/](https://vqnet20-tutorial.readthedocs.io/en/latest/)
+
+----
+by Armit
+2023/10/27
