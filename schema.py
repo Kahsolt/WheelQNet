@@ -2,13 +2,8 @@
 # Author: Armit
 # Create Time: 2023/10/27
 
-from re import compile as Regex
 from dataclasses import dataclass
-from typing import *
-
-U = Union
-L = Literal
-R_NAME = Regex('([^,]+) ([^\.]+\.) (.+)')
+from typing import Union as U, Literal as L
 
 
 @dataclass
@@ -17,13 +12,11 @@ class Schema:
   PassengerId: int
   # 生还，二分类目标
   Survived: U[L[0], L[1]]
-  # 舱位等级
-  Pclass: U[L[1], L[2], L[3]]
-  # 姓名，形如 "名, Mr/Mrs/Miss/Dr/Major/Master/Capt/Rev/Col./Don. 姓氏"
+  # 姓名，形如 "姓氏, 头衔. 名字 (备注?)"
   Name: str
   # 性别
   Sex: U[L['male'], L['female']]
-  # 年龄，会有 x.5 岁的情况
+  # 年龄，有 x.5 岁的情况; 有 20% 缺失值
   Age: float
   # 同行的兄弟姐妹数量
   SibSp: int
@@ -31,10 +24,11 @@ class Schema:
   Parch: int
   # 票号
   Ticket: int
-  # 票价
+  # 票价 (测试集有1个缺失值)
   Fare: float
-  # 船舱号 (有空值、多值)
+  # 舱位等级
+  Pclass: U[L[1], L[2], L[3]]
+  # 船舱号 (有 80% 缺失值、不规则值)
   Cabin: str
-  # 登船港口
+  # 登船港口 (训练集有2个缺失值)
   Embarked: U[L['S'], L['C'], L['Q']]
-

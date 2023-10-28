@@ -20,6 +20,11 @@ team name: 做好坠机准备
 
 - ??
 
+⚪ dev
+
+- `pip install -r requirements_dev.txt`
+- `python preprocess.py`
+
 
 #### refenrence
 

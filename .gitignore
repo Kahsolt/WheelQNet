@@ -2,5 +2,6 @@
 .vscode/
 __pycache__/
 
-# report
+# generated
 data/**/*.html
+processed/*
