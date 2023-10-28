@@ -1,1 +1,2 @@
 pyvqnet
+bson      # pyvqnet requires

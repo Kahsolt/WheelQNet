@@ -8,6 +8,9 @@ from pathlib import Path
 from traceback import print_exc
 from typing import *
 
+import numpy as np
+from numpy import ndarray
+
 BASE_PATH = Path(__file__).parent
 DATA_PATH = BASE_PATH / 'data'
 PROCESSED_PATH = BASE_PATH / 'processed'
@@ -25,7 +28,18 @@ PROVIDER_FILES = {
   },
 }
 
+SEED = 114514
+
 mean = lambda x: sum(x) / len(x) if len(x) else 0.0
+
+
+def seed_everything(seed:int):
+  import random
+  import numpy
+  import pyvqnet
+  random.seed(seed)
+  numpy.random.seed(seed)
+  pyvqnet.utils.set_random_seed(seed)
 
 
 def get_data_fp(split:str='train', provider:str='contest') -> Path:
@@ -33,6 +47,10 @@ def get_data_fp(split:str='train', provider:str='contest') -> Path:
 
 def get_processed_fp(split:str='train', provider:str='contest') -> Path:
   return PROCESSED_PATH / provider / PROVIDER_FILES[provider][split]
+
+def get_truth() -> ndarray:
+  with open(TRUTH_FILE, 'r', encoding='utf-8') as fh:
+    return np.asarray([int(x) for x in fh.read().strip().split('\n')], dtype=np.int64)
 
 
 def save_pkl(data:Any, fp:Path):
