@@ -2,9 +2,6 @@
 # Author: Armit
 # Create Time: 2023/10/28
 
-import warnings ; warnings.filterwarnings('ignore')
-from traceback import print_exc
-
 from tqdm import tqdm
 import pandas as pd
 from sklearnex import patch_sklearn; patch_sklearn()
@@ -17,8 +14,8 @@ from sklearn.tree import DecisionTreeClassifier, ExtraTreeClassifier
 from sklearn.ensemble import RandomForestClassifier, ExtraTreesClassifier, BaggingClassifier, AdaBoostClassifier, GradientBoostingClassifier, HistGradientBoostingClassifier
 from sklearn.model_selection import KFold, cross_val_score
 
-from preprocess import get_processed_fp, get_truth, TARGET
-from utils import seed_everything, SEED, mean
+from src.features import TARGET
+from utils import *
 
 seed_everything(SEED)
 

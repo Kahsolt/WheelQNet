@@ -16,14 +16,24 @@ team name: 做好坠机准备
 - `conda activare vq`
 - `pip install -r requirements.txt`
 
-⚪ run
+⚪ run eval (on pretrained)
 
-- ??
+- `SET PYTHONPATH=%CD%`
+- `python src\preprocess.py -f`
+- `python src\eval.py`
 
-⚪ dev
+⚪ run train (reproduce the submission)
+
+- `SET PYTHONPATH=%CD%`
+- `python src\preprocess.py -f`
+- `python src\train.py`
+
+⚪ development
 
 - `pip install -r requirements_dev.txt`
-- `python preprocess.py`
+- `python preprocess.py -f`
+- `python run_sklearn.py`
+- `python run_vqnet.py`
 
 
 #### refenrence
