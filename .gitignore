@@ -5,3 +5,6 @@ __pycache__/
 # generated
 data/**/*.html
 processed/*
+
+# log
+log/*
