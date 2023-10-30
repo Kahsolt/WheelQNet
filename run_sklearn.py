@@ -3,7 +3,6 @@
 # Create Time: 2023/10/28
 
 from tqdm import tqdm
-import pandas as pd
 from sklearnex import patch_sklearn; patch_sklearn()
 from sklearn.svm import SVC, LinearSVC, NuSVC
 from sklearn.linear_model import LogisticRegression, RidgeClassifier, SGDClassifier, Perceptron
@@ -134,13 +133,13 @@ feats_sn = [
 ]
 
 # train data
-df = pd.read_csv(get_processed_fp('train'))
+df = get_data('train')
 X_cat = df[feats_cat]
 X_num = df[feats_num]
 X_all = df[feats_cat + feats_num]
 Y = df[TARGET]
 # test data
-df = pd.read_csv(get_processed_fp('test'))
+df = get_data('test')
 X_test_cat = df[feats_cat]
 X_test_num = df[feats_num]
 X_test_all = df[feats_cat + feats_num]

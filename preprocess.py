@@ -12,8 +12,8 @@ def make_truth(overwrite:bool=False):
     print(f'>> ignore truth due to file exists')
     return
 
-  df_i = pd.read_csv(get_data_fp('test'))
-  df_r = pd.read_csv(get_data_fp('train', 'kaggle'))
+  df_i = get_rdata('test')
+  df_r = get_rdata('train', 'kaggle')
   truth = [
     df_r[df_r[DATAID] == id][TARGET].item()
       for id in df_i[DATAID]

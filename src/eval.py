@@ -11,5 +11,5 @@ def eval(fp:str) -> np.ndarray:
 
 
 if __name__ == "__main__":
-  fp = get_processed_fp('test')
+  fp = PROCESSED_PATH / 'contest' / PROVIDER_FILES['contest']['test']
   print(eval(fp))

@@ -24,7 +24,6 @@ print('>> numpy', np.__version__)
 BASE_PATH = Path(__file__).parent.parent
 DATA_PATH = BASE_PATH / 'data'
 PROCESSED_PATH = BASE_PATH / 'processed'
-PROCESSED_PATH.mkdir(exist_ok=True)
 
 PROVIDER_FILES = {
   'contest': {
@@ -44,11 +43,13 @@ def seed_everything(seed:int):
   vq.utils.set_random_seed(seed)
 
 
-def get_data_fp(split:str='train', provider:str='contest') -> Path:
-  return DATA_PATH / provider / PROVIDER_FILES[provider][split]
+def get_rdata(split:str='train', provider:str='contest') -> DataFrame:
+  fp = DATA_PATH / provider / PROVIDER_FILES[provider][split]
+  return pd.read_csv(fp)
 
-def get_processed_fp(split:str='train', provider:str='contest') -> Path:
-  return PROCESSED_PATH / provider / PROVIDER_FILES[provider][split]
+def get_data(split:str='train', provider:str='contest') -> DataFrame:
+  fp = PROCESSED_PATH / provider / PROVIDER_FILES[provider][split]
+  return pd.read_csv(fp)
 
 
 def save_pkl(data:Any, fp:Path):

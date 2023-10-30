@@ -50,13 +50,13 @@ feats_sn = [
 ]
 
 # train data
-df = pd.read_csv(get_processed_fp('train'))
+df = get_data('train')
 X_cat = df[feats_cat]
 X_num = df[feats_num]
 X_all = df[feats_cat + feats_num]
 Y = df[TARGET]
 # test data
-df = pd.read_csv(get_processed_fp('test'))
+df = get_data('test')
 X_test_cat = df[feats_cat]
 X_test_num = df[feats_num]
 X_test_all = df[feats_cat + feats_num]

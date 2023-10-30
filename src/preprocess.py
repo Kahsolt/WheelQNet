@@ -86,6 +86,8 @@ def gat_cmd_args():
 
 
 def preprocess(args):
+  PROCESSED_PATH.mkdir(exist_ok=True)
+
   # generated global stats, mirror DATA_PATH to PROCESSED_PATH
   walk_apply(DATA_PATH, make_namelists, args.overwrite)
 
