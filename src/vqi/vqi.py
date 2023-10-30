@@ -7,8 +7,6 @@
 # qpanda: https://pyqpanda-toturial.readthedocs.io/zh/latest/index.html
 # vqnet: https://vqnet20-tutorial.readthedocs.io/en/latest/index.html
 
-from src.vqi_vqc import *
-
 # dtype
 from pyvqnet.dtype import kbool, kint8, kuint8, kint16, kint32, kint64, kfloat32, kfloat64, kcomplex64, kcomplex128
 
