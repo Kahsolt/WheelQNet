@@ -23,6 +23,8 @@ from pyvqnet.nn.batch_norm import BatchNorm1d
 from pyvqnet.nn.layer_norm import LayerNorm1d, LayerNormNd
 from pyvqnet.nn.spectral_norm import Spectral_Norm
 from pyvqnet.nn.dropout import Dropout
+# nn: general parameter
+from pyvqnet.nn.parameter import Parameter
 # nn: general module
 from pyvqnet.nn.module import Module, ModuleList
 # nn: activation

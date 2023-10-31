@@ -128,33 +128,61 @@ from pyvqnet.qnn.vqc.qcircuit import (
 #   __init__(has_params:bool=False, trainable:bool=False, init_params:ndarray=None, num_wires:int=None, wires:Wires=None, dtype:int=kcomplex64, use_dagger:bool=False)
 #   forward(params:ndarray=None, q_machine:QMachine=None, wires:Wires=None)
 from pyvqnet.qnn.vqc.qcircuit import (
-  Hadamard,
-  I,
-  PauliX,
-  PauliY,
-  PauliZ,
-  X1,
-  Y1,
-  Z1,
-  RX,
-  RXX,
-  RY,
-  RYY,
-  RZ,
-  RZX,
-  RZZ,
-  S,
-  T,
-  U1,
-  U2,
-  U3,
-  CNOT,
-  CR,
-  CZ,
-  SWAP,
-  iSWAP,
-  Toffoli,
+  Hadamard as Hadamard_original,
+  I as I_original,
+  PauliX as PauliX_original,
+  PauliY as PauliY_original,
+  PauliZ as PauliZ_original,
+  X1 as X1_original,
+  Y1 as Y1_original,
+  Z1 as Z1_original,
+  RX as RX_original,
+  RXX as RXX_original,
+  RY as RY_original,
+  RYY as RYY_original,
+  RZ as RZ_original,
+  RZX as RZX_original,
+  RZZ as RZZ_original,
+  S as S_original,
+  T as T_original,
+  U1 as U1_original,
+  U2 as U2_original,
+  U3 as U3_original,
+  CNOT as CNOT_original,
+  CR as CR_original,
+  CZ as CZ_original,
+  SWAP as SWAP_original,
+  iSWAP as iSWAP_original,
+  Toffoli as Toffoli_original,
 )
+
+if 'wrap variational gate modules of pyvqnet.qnn.vqc.qcircuit':
+  Hadamard = lambda *args, **kwargs: Hadamard_original(has_params=False, trainable=False, *args, **kwargs)
+  I        = lambda *args, **kwargs: I_original       (has_params=False, trainable=False, *args, **kwargs)
+  PauliX   = lambda *args, **kwargs: PauliX_original  (has_params=False, trainable=False, *args, **kwargs)
+  PauliY   = lambda *args, **kwargs: PauliY_original  (has_params=False, trainable=False, *args, **kwargs)
+  PauliZ   = lambda *args, **kwargs: PauliZ_original  (has_params=False, trainable=False, *args, **kwargs)
+  X1       = lambda *args, **kwargs: X1_original      (has_params=False, trainable=False, *args, **kwargs)
+  Y1       = lambda *args, **kwargs: Y1_original      (has_params=False, trainable=False, *args, **kwargs)
+  Z1       = lambda *args, **kwargs: Z1_original      (has_params=False, trainable=False, *args, **kwargs)
+  RX       = lambda *args, **kwargs: RX_original      (has_params=True,  trainable=True,  *args, **kwargs)
+  RXX      = lambda *args, **kwargs: RXX_original     (has_params=True,  trainable=True,  *args, **kwargs)
+  RY       = lambda *args, **kwargs: RY_original      (has_params=True,  trainable=True,  *args, **kwargs)
+  RYY      = lambda *args, **kwargs: RYY_original     (has_params=True,  trainable=True,  *args, **kwargs)
+  RZ       = lambda *args, **kwargs: RZ_original      (has_params=True,  trainable=True,  *args, **kwargs)
+  RZX      = lambda *args, **kwargs: RZX_original     (has_params=True,  trainable=True,  *args, **kwargs)
+  RZZ      = lambda *args, **kwargs: RZZ_original     (has_params=True,  trainable=True,  *args, **kwargs)
+  S        = lambda *args, **kwargs: S_original       (has_params=False, trainable=False, *args, **kwargs)
+  T        = lambda *args, **kwargs: T_original       (has_params=False, trainable=False, *args, **kwargs)
+  U1       = lambda *args, **kwargs: U1_original      (has_params=True,  trainable=True,  *args, **kwargs)
+  U2       = lambda *args, **kwargs: U2_original      (has_params=True,  trainable=True,  *args, **kwargs)
+  U3       = lambda *args, **kwargs: U3_original      (has_params=True,  trainable=True,  *args, **kwargs)
+  CNOT     = lambda *args, **kwargs: CNOT_original    (has_params=False, trainable=False, *args, **kwargs)
+  CR       = lambda *args, **kwargs: CR_original      (has_params=False, trainable=False, *args, **kwargs)
+  CZ       = lambda *args, **kwargs: CZ_original      (has_params=False, trainable=False, *args, **kwargs)
+  SWAP     = lambda *args, **kwargs: SWAP_original    (has_params=False, trainable=False, *args, **kwargs)
+  iSWAP    = lambda *args, **kwargs: iSWAP_original   (has_params=False, trainable=False, *args, **kwargs)
+  Toffoli  = lambda *args, **kwargs: Toffoli_original (has_params=False, trainable=False, *args, **kwargs)
 
 # ↓↓↓ internal misc ↓↓↓
 
