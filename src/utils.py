@@ -4,7 +4,6 @@
 
 import warnings ; warnings.filterwarnings('ignore')
 
-import sys
 import random
 import json
 import pickle as pkl

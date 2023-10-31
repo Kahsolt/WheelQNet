@@ -2,6 +2,7 @@
 # Author: Armit
 # Create Time: 2023/10/27
 
+import sys
 from argparse import ArgumentParser
 from importlib import import_module
 
@@ -21,7 +22,7 @@ def plot_metrics(metrics:dict, dp:Path):
   plt.savefig(dp / 'loss_acc.png', dpi=600)
 
 
-def run(args):
+def run_train(args):
   log_dp = LOG_PATH / (args.name or ts_path())
   if log_dp.exists() and not args.overwrite:
     print(f'>> ignore due to logdir exists: {log_dp}')
@@ -62,7 +63,7 @@ def run(args):
     save_json(data, log_dp / 'log.json')
 
 
-def get_cmd_args():
+def get_train_args():
   parser = ArgumentParser()
   # data
   parser.add_argument('-B', '--batch_size', default=16, type=int)
@@ -91,4 +92,4 @@ def get_cmd_args():
 
 
 if __name__ == '__main__':
-  run(get_cmd_args())
+  run_train(get_train_args())

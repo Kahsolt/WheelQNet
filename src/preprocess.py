@@ -78,14 +78,14 @@ def make_report(fp:Path, overwrite:bool=False):
   print(f'>> saving report to {fp_out}')
 
 
-def gat_cmd_args():
+def get_preprocess_args():
   parser = ArgumentParser()
   parser.add_argument('-f', '--overwrite', action='store_true', help='force overwrite')
   args, _ = parser.parse_known_args()
   return args
 
 
-def preprocess(args):
+def run_preprocess(args):
   PROCESSED_PATH.mkdir(exist_ok=True)
 
   # generated global stats, mirror DATA_PATH to PROCESSED_PATH
@@ -103,5 +103,4 @@ def preprocess(args):
 
 
 if __name__ == '__main__':
-  args = gat_cmd_args()
-  preprocess(args)
+  run_preprocess(get_preprocess_args())

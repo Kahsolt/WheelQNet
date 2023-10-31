@@ -27,5 +27,4 @@ if __name__ == '__main__':
   make_truth()
 
   # proxy preprocessing
-  args = gat_cmd_args()
-  preprocess(args)
+  run_preprocess(get_preprocess_args())

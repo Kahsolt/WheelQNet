@@ -10,14 +10,14 @@ from src.runner import Runner
 from src.utils import *
 
 
-def eval(fp:str) -> ndarray:
+def eval(fp:str) -> ndarray:      # NOTE: export API for the contest judger
   args = Namespace()
   args.logdir = BASE_PATH / 'out' / 'submit'
   args.test_fp = Path(fp)
-  return run(args)
+  return run_eval(args)
 
 
-def run(args) -> ndarray:
+def run_eval(args) -> ndarray:
   log_dp: Path = args.logdir
   assert log_dp.is_dir(), f'pretrained log_dp no exists: {log_dp}'
 
@@ -34,7 +34,7 @@ def run(args) -> ndarray:
   return runner.infer(X).numpy()
 
 
-def get_cmd_args():
+def get_eval_args():
   parser = ArgumentParser()
   parser.add_argument('-L', '--logdir', type=Path, help='logdir to pretrained ckpt')
   parser.add_argument('--test_fp', default=TEST_FILE, type=Path)
@@ -43,4 +43,4 @@ def get_cmd_args():
 
 
 if __name__ == '__main__':
-  run(get_cmd_args())
+  run_eval(get_eval_args())
