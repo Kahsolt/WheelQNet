@@ -27,7 +27,7 @@ class Runner:
     param_dict = {k: v for k, v in state_dict.items() if k.endswith('.params')}
     save_parameters(param_dict, fp)
 
-  def train(self, X:QTensor, Y:QTensor) -> Any:
+  def train(self, X:QTensor, Y:QTensor, run_eval:bool=True) -> Any:
     hp, model = self.args, self.model
     optim_cls = getattr(vq.optim, hp.optim)
     if hp.optim == 'SGD':
@@ -54,8 +54,9 @@ class Runner:
         steps += 1
 
       ''' eval '''
-      accs.append(self.eval(X, Y))
-      print(f'[Epoch {epoch + 1}/{hp.epochs}] {accs[-1]:%}')
+      if run_eval:
+        accs.append(self.eval(X, Y))
+        print(f'[Epoch {epoch + 1}/{hp.epochs}] {accs[-1]:%}')
 
     return {
       'loss': losses,
