@@ -1,0 +1,63 @@
+Features:
+  ['Family_add', 'Family_mul', 'Family_sub-min', 'Family_sub_abs', 'Name_ex', 'Parch', 'Pclass-1', 'Title', 'bin(Age)', 'bin(Fare)', 'bin(log(Fare))', 'cat(Cabin_pf)', 'cat(Sex)', 'cat(Ticket_pf)', 'cnt(Name_fst)', 'cnt(Name_lst)', 'log(Fare)']
+
+PCA:
+  cat: 16 => 4
+  num: 14 => 4
+  all: 17 => 4
+Accuracy:
+  SVC: 78.860759% / 77.227723%
+  NuSVC: 78.860759% / 77.227723%
+  NuSVC: 79.493671% / 78.217822%
+  NuSVC: 79.746835% / 80.198020%
+  LinearSVC: 78.987342% / 78.217822%
+  LinearSVC: 78.860759% / 78.217822%
+  LogisticRegression: 78.860759% / 79.207921%
+  LogisticRegression: 78.860759% / 79.207921%
+  LogisticRegression: 78.860759% / 79.207921%
+  LogisticRegression: 78.860759% / 79.207921%
+  LogisticRegression: 78.860759% / 79.207921%
+  LogisticRegression: 78.860759% / 79.207921%
+  RidgeClassifier: 78.987342% / 78.217822%
+  SGDClassifier: 79.240506% / 77.227723%
+  SGDClassifier: 77.215190% / 80.198020%
+  Perceptron: 71.012658% / 36.633663%
+  Perceptron: 59.746835% / 76.237624%
+  Perceptron: 56.455696% / 81.188119%
+  MLPClassifier: 79.873418% / 81.188119%
+  MLPClassifier: 79.620253% / 81.188119%
+  MLPClassifier: 80.253165% / 81.188119%
+  MLPClassifier: 79.113924% / 80.198020%
+  KNeighborsClassifier: 79.873418% / 85.148515%
+  KNeighborsClassifier: 78.860759% / 85.148515%
+  KNeighborsClassifier: 79.493671% / 82.178218%
+  KNeighborsClassifier: 79.620253% / 82.178218%
+  GaussianNB: 77.468354% / 76.237624%
+  MultinomialNB: failed
+  BernoulliNB: 73.924051% / 81.188119%
+  DecisionTreeClassifier: 77.594937% / 66.336634%
+  DecisionTreeClassifier: 77.215190% / 69.306931%
+  DecisionTreeClassifier: 79.367089% / 79.207921%
+  DecisionTreeClassifier: 80.126582% / 79.207921%
+  ExtraTreeClassifier: 76.835443% / 76.237624%
+  ExtraTreeClassifier: 76.708861% / 70.297030%
+  ExtraTreeClassifier: 70.253165% / 78.217822%
+  ExtraTreeClassifier: 71.772152% / 78.217822%
+  RandomForestClassifier: 78.860759% / 78.217822%
+  RandomForestClassifier: 77.341772% / 78.217822%
+  ExtraTreesClassifier: 76.075949% / 76.237624%
+  ExtraTreesClassifier: 75.949367% / 76.237624%
+  BaggingClassifier: 76.202532% / 77.227723%
+  BaggingClassifier: 75.569620% / 77.227723%
+  BaggingClassifier: 76.075949% / 79.207921%
+  AdaBoostClassifier: 79.873418% / 82.178218%
+  AdaBoostClassifier: 78.354430% / 80.198020%
+  AdaBoostClassifier: 78.860759% / 80.198020%
+  GradientBoostingClassifier: 77.594937% / 78.217822%
+  GradientBoostingClassifier: 77.341772% / 82.178218%
+  GradientBoostingClassifier: 78.227848% / 80.198020%
+  HistGradientBoostingClassifier: 74.936709% / 84.158416%
+
+Mean accuracy:
+  train(cv): 76.997468%
+  test: 77.940594%

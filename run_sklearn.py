@@ -2,6 +2,8 @@
 # Author: Armit
 # Create Time: 2023/10/28
 
+from argparse import ArgumentParser
+
 from tqdm import tqdm
 from sklearnex import patch_sklearn; patch_sklearn()
 from sklearn.svm import SVC, LinearSVC, NuSVC
@@ -14,9 +16,8 @@ from sklearn.ensemble import RandomForestClassifier, ExtraTreesClassifier, Baggi
 from sklearn.model_selection import KFold, cross_val_score
 
 from src.features import TARGET
+from src.features.pca import *
 from utils import *
-
-seed_everything(SEED)
 
 MAX_ITER = 3000
 
@@ -127,58 +128,92 @@ feats_num = [
   'log(Fare)',    # good
   #'Family_sub',  # bad
 ] + feats_cat_or_num
+feats_all = sorted(set(feats_cat + feats_num))
 feats_sn = [
   'Ticket_no',
   'Cabin_no',
 ]
 
-# train data
-df = get_data('train')
-X_cat = df[feats_cat]
-X_num = df[feats_num]
-X_all = df[feats_cat + feats_num]
-Y = df[TARGET]
-# test data
-df = get_data('test')
-X_test_cat = df[feats_cat]
-X_test_num = df[feats_num]
-X_test_all = df[feats_cat + feats_num]
-truth = get_truth()
-del df
 
-print('Features:')
-print(' ', X_all.columns.tolist())
-print()
-
-print('Accuracy:')
-acc_list, acc_test_list = [], []
-k_fold = KFold(n_splits=5, shuffle=True, random_state=0)
-for i, clf in enumerate(tqdm(MODELS, desc='Models')):
-  model_name = clf.__class__.__name__
-  if model_name in ['MultinomialNB', 'BernoulliNB', 'CategoricalNB']:
-    X = X_cat
-    X_test = X_test_cat
+def apply_pca(args, X_train, X_test):
+  if args.method == 'tsne':
+    X_concat = pd.concat([X_train, X_test], axis=0)
+    X_concat = run_pca(args, X_concat)
+    X_train = X_concat[:len(X_train)]
+    X_test = X_concat[len(X_train):]
   else:
-    X = X_all
-    X_test = X_test_all
+    X_train, (scaler, reducer) = run_pca(args, X_train, ret_ops=True)
+    if scaler: X_test = scaler.transform(X_test)
+    X_test = reducer.transform(X_test)
+  return X_train, X_test
 
-  try:
-    # train/eval with cv
-    scores = cross_val_score(clf, X, Y, cv=k_fold, n_jobs=4, scoring='accuracy')
-    acc_cv = scores.mean()
-    # train with all data
-    clf.fit(X, Y)
-    pred = clf.predict(X_test)
-    # accuray pair
-    acc_test = (pred == truth).sum() / len(truth)
-    print(f'  {model_name}: {acc_cv:%} / {acc_test:%}')
-    acc_list.append(acc_cv)
-    acc_test_list.append(acc_test)
-  except:
-    print(f'  {model_name}: failed')
-    print_exc()
 
-print()
-print('Mean accuracy:')
-print(f'  train(cv): {mean(acc_list):%}')
-print(f'  test: {mean(acc_test_list):%}')
+def run(args):
+  # train data
+  df = get_data('train')
+  X_train_cat = df[feats_cat]
+  X_train_num = df[feats_num]
+  X_train_all = df[feats_all]
+  Y = df[TARGET]
+  # test data
+  df = get_data('test')
+  X_test_cat = df[feats_cat]
+  X_test_num = df[feats_num]
+  X_test_all = df[feats_all]
+  truth = get_truth()
+  del df
+
+  print('Features:')
+  print(' ', X_train_all.columns.tolist())
+  print()
+
+  if args.pca:
+    pca_args = get_pca_args()
+    print(f'PCA:')
+    print(f'  cat: {len(X_train_cat.columns)} => {pca_args.dim}')
+    X_train_cat, X_test_cat = apply_pca(pca_args, X_train_cat, X_test_cat)
+    print(f'  num: {len(X_train_num.columns)} => {pca_args.dim}')
+    X_train_num, X_test_num = apply_pca(pca_args, X_train_num, X_test_num)
+    print(f'  all: {len(X_train_all.columns)} => {pca_args.dim}')
+    X_train_all, X_test_all = apply_pca(pca_args, X_train_all, X_test_all)
+
+  print('Accuracy:')
+  acc_list, acc_test_list = [], []
+  k_fold = KFold(n_splits=5, shuffle=True, random_state=0)
+  for clf in tqdm(MODELS, desc='Models'):
+    seed_everything(SEED)
+
+    model_name = clf.__class__.__name__
+    if model_name in ['MultinomialNB', 'BernoulliNB', 'CategoricalNB']:
+      X_train, X_test = X_train_cat, X_test_cat
+    else:
+      X_train, X_test = X_train_all, X_test_all
+
+    try:
+      # train/eval with cv
+      scores = cross_val_score(clf, X_train, Y, cv=k_fold, n_jobs=4, scoring='accuracy')
+      acc_cv = scores.mean()
+      # train with all data
+      clf.fit(X_train, Y)
+      pred = clf.predict(X_test)
+      # accuray pair
+      acc_test = (pred == truth).sum() / len(truth)
+      print(f'  {model_name}: {acc_cv:%} / {acc_test:%}')
+      acc_list.append(acc_cv)
+      acc_test_list.append(acc_test)
+    except:
+      print(f'  {model_name}: failed')
+      print_exc()
+
+  print()
+  print('Mean accuracy:')
+  print(f'  train(cv): {mean(acc_list):%}')
+  print(f'  test: {mean(acc_test_list):%}')
+
+
+if __name__ == '__main__':
+  parser = ArgumentParser()
+  parser.add_argument('--pca', action='store_true', help='enable dimension reduction')
+  args, _ = parser.parse_known_args()
+  
+  run(args)
