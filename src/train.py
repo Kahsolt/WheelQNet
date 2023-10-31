@@ -77,8 +77,8 @@ def get_train_args():
 
   parser = ArgumentParser()
   # data
-  parser.add_argument('-B', '--batch_size', default=16, type=int)
-  parser.add_argument('-E', '--epochs',     default=40, type=int)
+  parser.add_argument('-B', '--batch_size', default=64, type=int)
+  parser.add_argument('-E', '--epochs',     default=50, type=int)
   # model
   parser.add_argument('-M', '--model', default='hea_amp', choices=MODELS)
   parser.add_argument('-W', '--wires', type=int, help='aka. n_qubits')
