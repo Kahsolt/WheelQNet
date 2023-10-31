@@ -1,3 +1,1 @@
 ydata-profiling
-scikit-learn
-scikit-learn-intelex

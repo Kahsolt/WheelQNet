@@ -1,2 +1,4 @@
 pyvqnet
 bson      # pyvqnet requires
+scikit-learn
+scikit-learn-intelex
