@@ -33,7 +33,13 @@ def run_train(args):
     seed_everything(args.seed)
     mod = import_module(f'src.models.{args.model}')
     model: Model = getattr(mod, 'get_model')(args)
+    param_cnt = get_param_cnt(model)
+    print('model:', args.model)
+    print('  param_cnt:', param_cnt)
     X, Y = model.reprocess(get_data('train'))
+    print('dataset:')
+    print('  X.shape:', X.shape)
+    print('  Y.shape:', Y.shape)
     runner = Runner(args, model)
     metrics: dict = runner.train(X, Y)
     runner.save_ckpt(log_dp / 'model.ckpt')
@@ -53,6 +59,9 @@ def run_train(args):
         'X.shape': env['X'].shape if 'X' in env else None,
         'Y.shape': env['Y'].shape if 'Y' in env else None,
       },
+      'model': {
+        'param_cnt': env.get('param_cnt'),
+      },
       'metrics': env.get('metrics'),
       'libs': {
         'numpy': np.__version__,
@@ -64,6 +73,8 @@ def run_train(args):
 
 
 def get_train_args():
+  str_to_bool = lambda x: bool(x.lower() in ['true', '1', 'y', 'yes'])
+
   parser = ArgumentParser()
   # data
   parser.add_argument('-B', '--batch_size', default=16, type=int)
@@ -81,6 +92,8 @@ def get_train_args():
   # optim
   parser.add_argument('-O', '--optim', default='SGD', choices=['SGD', 'Adagrad', 'Adadelta', 'RMSProp', 'Adam', 'Adamax'])
   parser.add_argument('--lr', default=0.1, type=float)
+  parser.add_argument('--sgd_momentum', default=0.9, type=float)
+  parser.add_argument('--sgd_nesterov', default=False, type=str_to_bool)
   # misc
   parser.add_argument('--seed', default=SEED, type=int)
   parser.add_argument('--name', help='log folder name, overwrite the default')

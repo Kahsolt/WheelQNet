@@ -29,7 +29,11 @@ class Runner:
 
   def train(self, X:QTensor, Y:QTensor) -> Any:
     hp, model = self.args, self.model
-    optim = getattr(vq.optim, hp.optim)(model.parameters(), lr=hp.lr)
+    optim_cls = getattr(vq.optim, hp.optim)
+    if hp.optim == 'SGD':
+      optim = optim_cls(model.parameters(), lr=hp.lr, momentum=hp.sgd_momentum, nesterov=hp.sgd_nesterov)
+    else:
+      optim = optim_cls(model.parameters(), lr=hp.lr)
 
     steps = 0
     losses, accs = [], []
@@ -39,7 +43,7 @@ class Runner:
       for X_bs, Y_bs in data_generator_qtensor(X, Y, hp.batch_size, shuffle=True):
         out = model(X_bs)
         optim.zero_grad()
-        loss = model.get_loss(out, Y_bs)
+        loss = model.loss(out, Y_bs)
         loss.backward()
         optim._step()
 
@@ -60,8 +64,7 @@ class Runner:
 
   def infer(self, X:QTensor) -> QTensor:
     self.model.eval()
-    out = self.model(X)
-    pred = out.argmax(-1, keepdims=False)
+    pred = self.model.inference(X)
     return pred.astype(kint64)
 
   def eval(self, X:QTensor, Y:QTensor) -> float:

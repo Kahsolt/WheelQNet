@@ -40,11 +40,15 @@ MODELS = [fp.stem for fp in MODEL_PATH.iterdir() if not fp.stem.startswith('__')
 SEED = 114514
 
 mean = lambda x: sum(x) / len(x) if len(x) else 0.0
+p_zeros = lambda n=1: QTensor([0.0]*n)
 dtype_str = get_readable_dtype_str
 
 def data_generator_qtensor(X:QTensor, Y:QTensor, batch_size:int=32, shuffle:bool=True):
   for X, Y in data_generator(X.numpy(), Y.numpy(), batch_size, shuffle):
     yield QTensor(X), QTensor(Y)
+
+def get_param_cnt(model:Module) -> int:
+  return sum([p.numel() for p in model.parameters() if p.requires_grad])
 
 
 def seed_everything(seed:int):

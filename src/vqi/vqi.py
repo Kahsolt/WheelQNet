@@ -82,6 +82,13 @@ import pyvqnet.qnn.pq_op_wrapper
 import pyvqnet.qnn.opt
 
 # optim
+# SGD     (params, lr=0.01, momentum=0, nesterov=False)
+# Adagrad (params, lr=0.01, epsilon=1e-08)
+# Adadelta(params, lr=0.01, beta=0.99, epsilon=1e-08)
+# RMSProp (params, lr=0.01, beta=0.99, epsilon=1e-08)
+# Adam    (params, lr=0.01, beta1=0.9, beta2=0.999, epsilon=1e-08, amsgrad:bool=False)
+# Adamax  (params, lr=0.01, beta1=0.9, beta2=0.999, epsilon=1e-08)
+# Rotosolve(max_iter=50)
 from pyvqnet.optim import SGD, Adagrad, Adadelta, RMSProp, Adam, Adamax, Rotosolve
 
 # helpers
