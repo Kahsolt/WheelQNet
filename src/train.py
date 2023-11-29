@@ -84,7 +84,7 @@ def get_train_args():
   parser.add_argument('-W', '--wires', type=int, help='aka. n_qubits')
   parser.add_argument('-D', '--depth', type=int)
   # encoder: amplitude
-  parser.add_argument('--amp_enc_rots', help='comma seperated RX/RY/RZ')
+  parser.add_argument('--amp_enc_rots', help='comma seperated X/Y/Z')
   # ansatz: HardwareEfficientAnsatz
   parser.add_argument('--hea_rots', help='comma seperated RX/RY/RZ')
   parser.add_argument('--hea_entgl', choices=['CNOT', 'CZ'])

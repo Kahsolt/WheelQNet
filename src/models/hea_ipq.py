@@ -13,17 +13,15 @@ class HEA_IPQ(ModelCE):
     super().__init__(args, n_qubits)
 
     self.encoder = VQC_IQPEmbedding     # n features => n qubits
-    self.ansatz1 = VQC_HardwareEfficientAnsatz(n_qubits, rots, entgl, entgl_rule, depth//2, initial=p_zeros())
-    self.ansatz2 = VQC_HardwareEfficientAnsatz(n_qubits, rots, entgl, entgl_rule, depth - depth//2, initial=p_zeros())
+    self.ansatz  = VQC_HardwareEfficientAnsatz(n_qubits, rots, entgl, entgl_rule, depth, initial=p_zeros())
     self.out     = Hadamard(wires=0)
     self.measure = Probability(wires=0)
 
   def forward(self, x:QTensor):
     vqm = self.vqm_reset(x)
     self.encoder(x[:, :self.n_qubits], vqm)
-    self.ansatz1(vqm)
     self.encoder(x[:, self.n_qubits:], vqm)
-    self.ansatz2(vqm)
+    self.ansatz(vqm)
     self.out(q_machine=vqm)
     return self.measure(vqm)
 
