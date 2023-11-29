@@ -5,7 +5,7 @@
 from src.models import ModelMSE
 from src.utils import *
 
-# implments the ansatz in "Circuit-centric quantum classifiers": https://arxiv.org/abs/1804.00633
+# implements the ansatz in "Circuit-centric quantum classifiers": https://arxiv.org/abs/1804.00633
 
 feats = [
   'Title',            # [0, 4]
@@ -74,7 +74,7 @@ class CCQC(ModelMSE):
     self.get_exp  = MeasureAll({'Z0': 1.0})
     self.bias     = Bais()      # NOTE: this must be a Module, otherwise weights will not be saved
 
-  def forward(self, x:QTensor):
+  def forward_no_bias(self, x:QTensor) -> QTensor:
     vqm = self.vqm_reset(x)
     self.encoder(x, vqm)
     for rot   in self.rot1:   rot(q_machine=vqm)
@@ -82,13 +82,21 @@ class CCQC(ModelMSE):
     for rot   in self.rot2:   rot(q_machine=vqm)
     for entgl in self.entgl2: entgl.forward(vqm)
     self.rot3(q_machine=vqm)
+    return self.measure()    # [B], vrng [0, 1]
+
+  def forward(self, x:QTensor) -> QTensor:
+    o = self.forward_no_bias(x)   # [B], quantum
+    return self.bias(o)           # [B], classical
+
+  def measure(self) -> QTensor:
+    vqm = self.vqm
     if 'computaional basis project':
       prob = self.get_prob(vqm)
       out = prob[:, 1]
     else:   # pauli-z expectation
       expval = self.get_exp(vqm)
       out = (expval + 1) / 2
-    return self.bias(out)
+    return out
 
   def reprocess(self, df:DataFrame) -> Tuple[QTensor, QTensor]:
     X, Y = self.split_df(df, feats)
