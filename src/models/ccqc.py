@@ -41,6 +41,17 @@ class CU3(Module):
     VQC_CRotCircuit(self.params, self.control_qubit, self.rot_qubit, vqm)
 
 
+class Bais(Module):
+  
+  def __init__(self):
+    super().__init__()
+
+    self.params = Parameter(shape=[1], initializer=zeros, dtype=kfloat32)
+
+  def forward(self, x:QTensor):
+    return x - self.params
+
+
 class CCQC(ModelMSE):
 
   def __init__(self, args, n_qubits:int=4, depth:int=2):
@@ -61,7 +72,7 @@ class CCQC(ModelMSE):
     self.rot3     = U3(wires=0, init_params=p_zeros(3))
     self.get_prob = Probability(wires=0)
     self.get_exp  = MeasureAll({'Z0': 1.0})
-    self.b        = Parameter(shape=[1], initializer=zeros, dtype=kfloat32)
+    self.bias     = Bais()      # NOTE: this must be a Module, otherwise weights will not be saved
 
   def forward(self, x:QTensor):
     vqm = self.vqm_reset(x)
@@ -77,7 +88,7 @@ class CCQC(ModelMSE):
     else:   # pauli-z expectation
       expval = self.get_exp(vqm)
       out = (expval + 1) / 2
-    return out - self.b
+    return self.bias(out)
 
   def reprocess(self, df:DataFrame) -> Tuple[QTensor, QTensor]:
     X, Y = self.split_df(df, feats)

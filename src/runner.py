@@ -15,19 +15,22 @@ class Runner:
     self.model = model
 
   def load_ckpt(self, fp:Path):
-    param_dict: StateDict = load_parameters(fp)
-    #self.model.load_state_dict(param_dict)   # NOTE: unknown bug crashes at lower level
+    ckpt_dict: StateDict = load_parameters(fp)
     state_dict = self.model.state_dict()
-    for k in param_dict:
-      if k not in state_dict: continue
-      state_dict[k] = param_dict[k]
+    if 'check keys':
+      missing_keys = state_dict.keys() - ckpt_dict.keys()
+      if missing_keys: print('>> missing_keys:', missing_keys)
+      redundant_keys = ckpt_dict.keys() - state_dict.keys()
+      if redundant_keys: print('>> redundant_keys:', redundant_keys)
+    for k in ckpt_dict: state_dict[k] = ckpt_dict[k]    # override with ckpt
+    self.model.load_state_dict(state_dict)
 
   def save_ckpt(self, fp:Path):
     state_dict: StateDict = self.model.state_dict()
     param_dict = {k: v for k, v in state_dict.items() if k.endswith('.params')}
     save_parameters(param_dict, fp)
 
-  def train(self, X:QTensor, Y:QTensor, run_eval:bool=True) -> Any:
+  def train(self, X:QTensor, Y:QTensor, run_eval:bool=True) -> Dict[str, List[float]]:
     hp, model = self.args, self.model
     optim_cls = getattr(vq.optim, hp.optim)
     if hp.optim == 'SGD':
@@ -47,16 +50,15 @@ class Runner:
         loss.backward()
         optim._step()
 
+        steps += 1
+
         if steps % 10 == 0:
           losses.append(loss.item())
-          print(f'>> step {steps}: {losses[-1]}')
-
-        steps += 1
 
       ''' eval '''
       if run_eval:
         accs.append(self.eval(X, Y))
-        print(f'[Epoch {epoch + 1}/{hp.epochs}] {accs[-1]:%}')
+        print(f'[Epoch {epoch + 1}/{hp.epochs}] acc: {accs[-1]:%}, loss: {mean(losses[-10:])}')
 
     return {
       'loss': losses,

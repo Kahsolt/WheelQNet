@@ -40,7 +40,7 @@ MODELS = [fp.stem for fp in MODEL_PATH.iterdir() if not fp.stem.startswith('__')
 SEED = 114514
 
 mean = lambda x: sum(x) / len(x) if len(x) else 0.0
-p_zeros = lambda n=1: QTensor([0.0]*n)
+p_zeros = lambda n=1, dtype=kcomplex64: QTensor([0.0]*n, requires_grad=True, dtype=dtype)
 dtype_str = get_readable_dtype_str
 
 def data_generator_qtensor(X:QTensor, Y:QTensor, batch_size:int=32, shuffle:bool=True):
