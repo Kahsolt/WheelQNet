@@ -18,15 +18,13 @@ team name: 做好坠机准备
 
 ⚪ run eval (on pretrained)
 
-- `SET PYTHONPATH=%CD%`
-- `python src\preprocess.py -f`
-- `python src\eval.py`
+- `python -m src.preprocess -f`
+- `python -m src.eval -L <logdir>`
 
 ⚪ run train (reproduce the submission)
 
-- `SET PYTHONPATH=%CD%`
-- `python src\preprocess.py -f`
-- `python src\train.py`
+- `python -m src.preprocess -f`
+- `python -m src.train`
 
 ⚪ development
 
@@ -34,6 +32,7 @@ team name: 做好坠机准备
 - `python preprocess.py -f`
 - `python run_sklearn.py`
 - `python run_vqnet.py`
+  - see exmaples in `run_vqnet_*.cmd`
 
 
 #### refenrence
