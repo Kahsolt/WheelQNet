@@ -10,6 +10,16 @@ Team Name: 做好坠机准备
 
 ![wheelq](img/wheelq.png)
 
+| Model | Param cnt. | Train acc. | Test acc. |
+| :-: | :-: | :-: | :-: |
+| HEA    | 32 | 78.608% | 82.178% |
+| CCQC   | 52 | 79.494% | 81.188% |
+| CCQC-q | 52 | 80.253% | 78.218% |
+| WheelQ | 32 | 77.342% | 79.208% |
+
+⚠ only `CCQC` has 1 classical parameter, the other models are all pure quantum parametricalized :)
+ℹ the proposed WheelQNet looks 花里胡哨 though, it just works!! 🎉
+
 
 ### Quickstart
 
@@ -35,7 +45,7 @@ Team Name: 做好坠机准备
 - `python preprocess.py -f`
 - `python run_sklearn.py`
 - `python run_vqnet.py`
-  - see exmaples in `run_vqnet_*.cmd`
+  - see exmaples in `run_vqnet*.cmd`
 
 
 #### refenrence
