@@ -81,6 +81,7 @@ def make_report(fp:Path, overwrite:bool=False):
 def get_preprocess_args():
   parser = ArgumentParser()
   parser.add_argument('-f', '--overwrite', action='store_true', help='force overwrite')
+  parser.add_argument('--dev', action='store_true', help='verbose for develop')
   args, _ = parser.parse_known_args()
   return args
 
@@ -94,12 +95,13 @@ def run_preprocess(args):
   # make features, mirror DATA_PATH to PROCESSED_PATH
   walk_apply(DATA_PATH, make_processed, args.overwrite, reverse=True)   # assure process 'train' before 'test'
 
-  # generated bi-variate histograms plots
-  walk_apply(PROCESSED_PATH, make_plots, args.overwrite)
-
-  # generated data profiling reports
-  walk_apply(DATA_PATH,      make_report, args.overwrite)
-  walk_apply(PROCESSED_PATH, make_report, args.overwrite)
+  if args.dev:
+    # generated bi-variate histograms plots
+    walk_apply(PROCESSED_PATH, make_plots, args.overwrite)
+  
+    # generated data profiling reports
+    walk_apply(DATA_PATH,      make_report, args.overwrite)
+    walk_apply(PROCESSED_PATH, make_report, args.overwrite)
 
 
 if __name__ == '__main__':

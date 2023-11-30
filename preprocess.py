@@ -27,4 +27,6 @@ if __name__ == '__main__':
   make_truth()
 
   # proxy preprocessing
-  run_preprocess(get_preprocess_args())
+  args = get_preprocess_args()
+  args.dev = True
+  run_preprocess(args)

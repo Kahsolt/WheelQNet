@@ -29,23 +29,21 @@ Team Name: 做好坠机准备
 - `conda activare vq`
 - `pip install -r requirements.txt`
 
-⚪ run eval (on pretrained)
+⚪ run
 
-- `python -m src.preprocess -f`
-- `python -m src.eval -L <logdir>`
-
-⚪ run train (reproduce the submission)
-
-- `python -m src.preprocess -f`
-- `python -m src.train`
+- `python -m src.preprocess -f`, make feature data
+- `python -m src.eval -L out\<model>`, get testset predictions
+  - `python -m src.eval` for the default model (`hea_amp`)
+- `run_vqnet.cmd`, train on your own to reproduce the submission
 
 ⚪ development
 
 - `pip install -r requirements_dev.txt`
 - `python preprocess.py -f`
-- `python run_sklearn.py`
-- `python run_vqnet.py`
+- `python run_sklearn.py` for classical comparations
+- `python run_vqnet.py -M <model>` to train
   - see exmaples in `run_vqnet*.cmd`
+- `python run_vqnet.py -L <logdir>` to eval
 
 
 #### refenrence
