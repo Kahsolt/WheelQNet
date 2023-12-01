@@ -2,6 +2,8 @@
 # Author: Armit
 # Create Time: 2023/10/30
 
+from importlib import import_module
+
 from src.models import Model
 from src.utils import *
 
@@ -73,3 +75,21 @@ class Runner:
   def eval(self, X:QTensor, Y:QTensor) -> float:
     pred = self.infer(X)
     return tensor.sums(pred == Y).item() / Y.shape[0]
+
+
+def load_pretrained_env(args) -> Tuple[Model, Runner]:
+  log_dp: Path = args.logdir
+  assert log_dp.is_dir(), f'pretrained log_dp no exists: {log_dp}'
+
+  data = load_json(log_dp / 'log.json')
+  for k, v in data['args'].items():
+    setattr(args, k, v)
+
+  seed_everything(args.seed)
+  mod = import_module(f'src.models.{args.model}')
+  model: Model = getattr(mod, 'get_model')(args)
+  model.eval()
+  runner = Runner(args, model)
+  runner.load_ckpt(log_dp / 'model.ckpt')
+
+  return model, runner
