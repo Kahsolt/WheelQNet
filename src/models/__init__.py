@@ -24,13 +24,13 @@ class Model(Module):
     X = QTensor(df[feats], kfloat32)
     return X, Y
 
-  def forward(self, x:QTensor):
+  def forward(self, x:QTensor) -> QTensor:
     raise NotImplementedError
 
   def inference(self, x:QTensor) -> QTensor:
     raise NotImplementedError
 
-  def loss(self, o:QTensor, y:QTensor):
+  def loss(self, o:QTensor, y:QTensor) -> QTensor:
     raise NotImplementedError
 
   def reprocess(self, df:DataFrame) -> Tuple[QTensor, QTensor]:
@@ -47,7 +47,7 @@ class ModelCE(Model):
   def inference(self, x:QTensor) -> QTensor:
     return self(x).argmax(-1, keepdims=False)
 
-  def loss(self, o:QTensor, y:QTensor):
+  def loss(self, o:QTensor, y:QTensor) -> QTensor:
     return self.criterion(y, o)
 
 
@@ -61,5 +61,5 @@ class ModelMSE(Model):
   def inference(self, x:QTensor) -> QTensor:
     return self(x) > 0.5
 
-  def loss(self, o:QTensor, y:QTensor):
+  def loss(self, o:QTensor, y:QTensor) -> QTensor:
     return self.criterion(y.astype(kfloat32), o)
