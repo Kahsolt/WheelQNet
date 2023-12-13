@@ -2,6 +2,7 @@
 # Author: Armit
 # Create Time: 2023/10/31
 
+import pickle as pkl
 from argparse import ArgumentParser
 
 from sklearn.preprocessing import MinMaxScaler, MaxAbsScaler, StandardScaler, Normalizer
@@ -31,6 +32,25 @@ REDUCERS = {
 }
 
 
+def save_pca_pickle(fp:Path, scaler:Scaler, reducer:Reducer):
+  print(f'>> save pca pickle {fp}')
+  with open(fp, 'wb') as fh:
+    pkl.dump((scaler, reducer), fh)
+
+
+def load_pca_pickle(fp:Path) -> Tuple[Scaler, Reducer]:
+  print(f'>> load pca pickle {fp}')
+  with open(fp, 'rb') as fh:
+    scaler, reducer = pkl.load(fh)
+  return scaler, reducer
+
+
+def apply_pca(X:ndarray, scaler:Scaler, reducer:Reducer) -> ndarray:
+  if scaler  is not None: X = scaler .transform(X)
+  if reducer is not None: X = reducer.transform(X)
+  return X
+
+
 def run_pca(args, X:Union[DataFrame, ndarray], ret_ops:bool=False) -> Union[ndarray, Tuple[ndarray, Tuple[Scaler, Reducer]]]:
   if args.scaler != 'none':
     scaler: Scaler = SCALERS[args.scaler]()
@@ -45,7 +65,7 @@ def run_pca(args, X:Union[DataFrame, ndarray], ret_ops:bool=False) -> Union[ndar
 
 def get_pca_args():
   parser = ArgumentParser()
-  parser.add_argument('-M', '--method', default='pca',    choices=['pca', 'kpca', 'tsvd', 'fica', 'tsne', 'mds', 'isomap'])
+  parser.add_argument('-P', '--method', default='pca',    choices=['pca', 'kpca', 'tsvd', 'fica', 'tsne', 'mds', 'isomap'])
   parser.add_argument('-K', '--kernel', default='linear', choices=['linear', 'poly', 'rbf', 'sigmoid', 'cosine'], help='kernel for KernelPCA')
   parser.add_argument('-S', '--scaler', default='maxabs', choices=['none', 'minmax', 'maxabs', 'std', 'norm'])
   parser.add_argument('-D', '--dim',    default=8, type=int)

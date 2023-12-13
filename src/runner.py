@@ -29,7 +29,7 @@ class Runner:
 
   def save_ckpt(self, fp:Path):
     state_dict: StateDict = self.model.state_dict()
-    param_dict = {k: v for k, v in state_dict.items() if k.endswith('.params')}
+    param_dict = {k: v for k, v in state_dict.items() if k.endswith('.params') or k in ['ref_x', 'ref_y']}
     save_parameters(param_dict, fp)
 
   def train(self, X:QTensor, Y:QTensor, run_eval:bool=True) -> Dict[str, List[float]]:
@@ -49,6 +49,7 @@ class Runner:
         out = model(X_bs)
         optim.zero_grad()
         loss = model.loss(out, Y_bs)
+        if loss is None: break      # kNNq compatible
         loss.backward()
         optim._step()
 

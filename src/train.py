@@ -15,6 +15,7 @@ from src.utils import *
 
 
 def plot_metrics(metrics:dict, dp:Path):
+  if not metrics: return
   plt.clf()
   plt.subplot(211) ; plt.title('loss')     ; plt.plot(metrics['loss'], 'b')
   plt.subplot(212) ; plt.title('accuracy') ; plt.plot(metrics['acc'],  'r')
@@ -28,7 +29,9 @@ def run_train(args):
     print(f'>> ignore due to logdir exists: {log_dp}')
     return
   log_dp.mkdir(parents=True, exist_ok=True)
+  args.log_dp = str(log_dp.relative_to(BASE_PATH))
 
+  is_knnq = args.model == 'knnq'
   try:
     seed_everything(args.seed)
     mod = import_module(f'src.models.{args.model}')
@@ -41,7 +44,7 @@ def run_train(args):
     print('  X.shape:', X.shape)
     print('  Y.shape:', Y.shape)
     runner = Runner(args, model)
-    metrics: dict = runner.train(X, Y)
+    metrics: dict = runner.train(X, Y, run_eval=not is_knnq)
     runner.save_ckpt(log_dp / 'model.ckpt')
     plot_metrics(metrics, log_dp)
   except KeyboardInterrupt:
@@ -89,6 +92,8 @@ def get_train_args():
   parser.add_argument('--hea_rots', help='comma seperated RX/RY/RZ')
   parser.add_argument('--hea_entgl', choices=['CNOT', 'CZ'])
   parser.add_argument('--hea_entgl_rule', choices=['linear', 'all'])
+  # knn
+  parser.add_argument('--knn', default=5, type=int, help='neighbor count for kNNq')
   # optim
   parser.add_argument('-O', '--optim', default='SGD', choices=['SGD', 'Adagrad', 'Adadelta', 'RMSProp', 'Adam', 'Adamax'])
   parser.add_argument('--lr', default=0.1, type=float)

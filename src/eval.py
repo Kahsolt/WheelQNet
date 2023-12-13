@@ -10,7 +10,7 @@ from src.utils import *
 
 def eval(fp:str) -> ndarray:      # NOTE: export API for the contest judger
   args = Namespace()
-  args.logdir = BASE_PATH / 'out' / 'hea_amp'
+  args.logdir = BASE_PATH / 'out' / 'knnq'
   args.test_fp = Path(fp)
   return run_eval(args)
 

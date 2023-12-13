@@ -16,9 +16,11 @@ Team Name: 做好坠机准备
 | CCQC   | 52 | 79.494% | 81.188% |
 | CCQC-q | 52 | 80.253% | 78.218% |
 | WheelQ | 32 | 77.342% | 79.208% |
+| kNN-q  |  - | 81.392% | 87.129% |
 
-⚠ only `CCQC` has 1 classical parameter, the other models are all pure quantum parametricalized :)
-ℹ the proposed WheelQNet looks 花里胡哨 though, it just works!! 🎉
+⚠ only `CCQC` has 1 classical parameter, and `kNN-q` is non-parametrical, the other models are all pure quantum parametricalized :)
+ℹ the proposed `WheelQNet` looks 花里胡哨 though, it just works!! 🎉
+ℹ the proposed `kNN-q` looks good, but it may be our fortune 😂
 
 
 ### Quickstart
@@ -33,7 +35,7 @@ Team Name: 做好坠机准备
 
 - `python -m src.preprocess -f`, make feature data
 - `python -m src.eval -L out\<model>`, get testset predictions
-  - `python -m src.eval` for the default model (`hea_amp`)
+  - `python -m src.eval` for the default model (`knnq`)
 - `run_vqnet.cmd`, train on your own to reproduce the submission
 
 ⚪ development

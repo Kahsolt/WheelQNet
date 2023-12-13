@@ -2,7 +2,7 @@ from src.features.schema import *
 from src.features.feature import *
 from src.features.pca import *
 
-# common QNN training features
+# common QNN training features (16)
 feats = [
   'Title',            # [0, 4]
   'cnt(Name_lst)',    # [1, 6]
@@ -22,3 +22,7 @@ feats = [
   'cat(Cabin_pf)',    # [0, 8]
   'cat(Ticket_pf)',   # [0, 11]
 ]
+
+
+# extended common QNN training features (17)
+feats_all = feats + ['Family_mul']
