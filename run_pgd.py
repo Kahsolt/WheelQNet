@@ -63,7 +63,7 @@ if __name__ == '__main__':
   eval_with_env = lambda x: eval(x, globals(), globals())
 
   parser = ArgumentParser()
-  parser.add_argument('-L', '--logdir', default='out/hea_amp', type=Path, help='logdir to pretrained ckpt')
+  parser.add_argument('-L', '--logdir', default='log/hea_amp', type=Path, help='logdir to pretrained ckpt')
   parser.add_argument('--test_fp', default=TEST_FILE, type=Path)
   parser.add_argument('--step',    default=10,        type=int)
   parser.add_argument('--eps',     default=pi/100,    type=eval_with_env)

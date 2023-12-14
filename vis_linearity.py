@@ -37,7 +37,7 @@ def run(args):
 
 if __name__ == '__main__':
   parser = ArgumentParser()
-  parser.add_argument('-L', '--logdir', default='out/hea_amp', type=Path, help='logdir to pretrained ckpt')
+  parser.add_argument('-L', '--logdir', default='log/hea_amp', type=Path, help='logdir to pretrained ckpt')
   parser.add_argument('-I', '--index', default=0, type=int, help='sample index')
   parser.add_argument('-N', '--n_lerp', default=100, type=int, help='lerp count')
   parser.add_argument('--test_fp', default=TEST_FILE, type=Path)

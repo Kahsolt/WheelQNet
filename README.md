@@ -34,7 +34,7 @@ Team Name: 做好坠机准备
 ⚪ run
 
 - `python -m src.preprocess -f`, make feature data
-- `python -m src.eval -L out\<model>`, get testset predictions
+- `python -m src.eval -L log\<model>`, get testset predictions
   - `python -m src.eval` for the default model (`knnq`)
 - `run_vqnet.cmd`, train on your own to reproduce the submission
 
