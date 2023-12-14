@@ -1,0 +1,46 @@
+{
+  "argv": "run_vqnet.py -M knnq --knn 5 --name knnq",
+  "args": {
+    "batch_size": 100000,
+    "epochs": 1,
+    "model": "knnq",
+    "wires": null,
+    "depth": null,
+    "amp_enc_rots": null,
+    "hea_rots": null,
+    "hea_entgl": null,
+    "hea_entgl_rule": null,
+    "knn": 5,
+    "optim": "SGD",
+    "lr": 0.1,
+    "sgd_momentum": 0.9,
+    "sgd_nesterov": false,
+    "seed": 114514,
+    "name": "knnq",
+    "overwrite": false,
+    "n_qubits": null,
+    "log_dp": "out\\knnq"
+  },
+  "interrupted": false,
+  "data": {
+    "X.shape": [
+      790,
+      4
+    ],
+    "Y.shape": [
+      790
+    ]
+  },
+  "model": {
+    "param_cnt": 0
+  },
+  "metrics": {
+    "loss": [],
+    "acc": []
+  },
+  "libs": {
+    "numpy": "1.24.4",
+    "pandas": "2.0.3",
+    "pyvqnet": "v2.0.8"
+  }
+}
