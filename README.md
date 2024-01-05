@@ -7,6 +7,7 @@
 This repo contains code for the contest: 第一届量子信息技术与应用创新大赛 -- 本源量子VQNet量子机器学习大赛赛道  
 Contest page: [https://contest.originqc.com.cn/contest/32/contest:introduction](https://contest.originqc.com.cn/contest/32/contest:introduction)  
 Team Name: 做好坠机准备  
+Final Score: **84.6** (the 1st prize 😀)  
 
 ![wheelq](img/wheelq.png)
 
